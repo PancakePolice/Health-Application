@@ -64,6 +64,10 @@ int main() {
     }
 
     // Calculate Ideal Calorie Reductions/Gains to Safely Reach Ideal Weight
+
+    system("pause");
+
+    return 0;
 }
 
 // https://www.cdc.gov/healthyweight/assessing/bmi/adult_bmi/index.html#InterpretedAdults
