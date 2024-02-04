@@ -4,8 +4,8 @@
 #include <iomanip>
 using namespace std;
 
-const double WEIGHT = 0; // in pounds
-const double HEIGHT = 0; // in inches
+double WEIGHT = 0; // in pounds
+double HEIGHT = 0; // in inches
 
 enum WeightStatus{UNDERWEIGHT, HEALTHY_WEIGHT, OVERWEIGHT, OBESITY};
 
@@ -14,6 +14,15 @@ const double getBMI(double pounds = WEIGHT, double inches = HEIGHT);
 const double getIdealWeight(double inches = HEIGHT, double bmi = 21.7);
 
 int main() {
+    if (WEIGHT == 0) {
+        cout << "Please enter your weight in pounds: ";
+        cin >> WEIGHT;
+    }
+    if (HEIGHT == 0) {
+        cout << "Please enter your height in inches: ";
+        cin >> HEIGHT;
+    }
+
     cout << "You have a BMI of " << setprecision(3) << getBMI(WEIGHT, HEIGHT) << " which is ";
 
     switch (getWeightStatus()) {
@@ -38,17 +47,17 @@ int main() {
     
     switch (getWeightStatus()) {
     case UNDERWEIGHT:
-        cout << "You must gain a minimum of "  << getIdealWeight(HEIGHT, 25) - WEIGHT << " lbs. to be at a healthy weight." << endl;
+        cout << "You must gain a minimum of "  << getIdealWeight(HEIGHT, 25) - WEIGHT << " lbs to be at a healthy weight." << endl;
         break;
     case HEALTHY_WEIGHT:
         cout << "Congratulations on being healthy weight!" << endl;
         break;
     case OVERWEIGHT:
-        cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 24.9) << " lbs. to be at a healthy weight." << endl;
+        cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 24.9) << " lbs to be at a healthy weight." << endl;
         break;
     case OBESITY:
-       cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 29.9) << " lbs. to no longer be obese." << endl;
-       cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 24.9) << " lbs. to be at a healthy weight." << endl;
+       cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 29.9) << " lbs to no longer be obese." << endl;
+       cout << "You must lose a minimum of " << WEIGHT - getIdealWeight(HEIGHT, 24.9) << " lbs to be at a healthy weight." << endl;
         break;
     default:
         cout << "ERROR." << endl;
