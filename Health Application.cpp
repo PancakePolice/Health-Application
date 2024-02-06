@@ -9,15 +9,18 @@ double WEIGHT = 0; // in pounds
 double HEIGHT = 0; // in inches
 double AGE = 0; // in years
 
-enum WeightStatus{ UNDERWEIGHT, HEALTHY_WEIGHT, OVERWEIGHT, OBESE} weightStatus;
+enum WeightStatus{ UNDERWEIGHT, HEALTHY_WEIGHT, OVERWEIGHT, OBESE};
 // enum menuStatus { BROWSING, QUIT } menuStatus;
 
-const WeightStatus getWeightStatus(double pounds = WEIGHT, double inches = HEIGHT);
 const double getBMI(double pounds = WEIGHT, double inches = HEIGHT);
 const double getBMR(double activityFactor = 1.2, double pounds = WEIGHT, double inches = HEIGHT, int age = AGE);
 const double getIdealWeight(double inches = HEIGHT);
+const int getWeeksUntilIdealWeight(double calorieIntake = 1500, double idealWeight = 0, double weight = WEIGHT);
+const WeightStatus getWeightStatus(double pounds = WEIGHT, double inches = HEIGHT);
+
 const string PrintWeightStatus();
-static const string PrintHealthyWeightRange(double inches = HEIGHT);
+const string PrintHealthyWeightRange(double inches = HEIGHT);
+
 static const double lb2kg(double pounds) { return pounds / 2.205; }
 static const double kg2lb(double mass) { return mass * 2.205; }
 static const double in2cm(double inches) { return inches * 2.54; }
@@ -44,6 +47,10 @@ int main() {
     cout << "Ideal Weight: " << setprecision(3) << getIdealWeight() << " lbs" << endl;
     cout << PrintHealthyWeightRange() << endl;
     cout << "Base Metabolic Rate: " << setprecision(4) << getBMR() << " calories" << endl;
+
+    if (getWeightStatus() == OBESE)
+        cout << "\nIf you consumed roughly 1500 calories a day, it would take " << getWeeksUntilIdealWeight(1500, (29.9 * pow(HEIGHT, 2) / 703)) << " weeks to no longer be obese.";
+    cout << "\nIf you consumed roughly 1500 calories a day, it would take " << getWeeksUntilIdealWeight() << " weeks to reach ideal weight." << endl;
 
     system("pause");
     return 0;
@@ -99,4 +106,18 @@ static const string PrintHealthyWeightRange(double inches) {
     int min = round(18.5 * pow(inches, 2) / 703);
     int max = round(24.9 * pow(inches, 2) / 703);
     return "Ideal Weight Range: " + to_string(min) + " - " + to_string(max) + " lbs.";
+}
+
+const int getWeeksUntilIdealWeight(double calorieIntake, double idealWeight, double weight) {
+    double weeklyLoss = ((getBMR() - calorieIntake) * 7) / 3500; // 1 lb fat is approx. 3500 cal
+    int weeks = 0;
+
+    if (idealWeight == 0)
+        idealWeight = getIdealWeight();
+
+    while (weight > idealWeight) {
+        weight -= weeklyLoss;
+        weeks++;
+    }
+    return weeks;
 }
